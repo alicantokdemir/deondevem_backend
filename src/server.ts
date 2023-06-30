@@ -1,22 +1,24 @@
 import { Server as HttpServer } from 'http';
 import util from 'util';
-import express, { RequestHandler } from 'express';
+import cors from 'cors';
+import express from 'express';
+import multer from 'multer';
 import { json } from 'body-parser';
 import helmet from 'helmet';
 import { merge } from 'lodash';
 import morgan from 'morgan';
-import passport from 'passport';
-import authRouter from '@features/auth/auth-router';
-import userRouter from '@features/user/user-router';
-import postRouter from '@features/post/post-router';
+import productRouter from '@features/product/product-router';
 import { errorHandler, notFoundHandler } from '@middleware/errorHandlers';
-import createSessionMiddleware from '@middleware/session';
-import configurePassport from './configurePassport';
+import path from 'path';
 
 export type Server = Omit<HttpServer, 'close'> & { close: () => Promise<void> };
 
 export async function startServer({ port = process.env.PORT } = {}): Promise<Server> {
     const app = express();
+
+    app.use('/uploads', express.static(__dirname + '/uploads'));
+
+    app.use(cors());
 
     app.use(helmet());
     app.use(json());
@@ -25,21 +27,28 @@ export async function startServer({ port = process.env.PORT } = {}): Promise<Ser
         app.use(morgan(process.env.NODE_ENV !== 'production' ? 'dev' : 'common'));
     }
 
-    app.use(createSessionMiddleware() as RequestHandler);
+    app.use('/products', productRouter);
 
-    configurePassport(passport);
-    app.use(passport.initialize() as RequestHandler);
-    app.use(passport.session());
-
-    app.get('/', (req, res) => {
-        res.json({
-            version: '1.0.0',
-            copyright: 'Copyright 2022 Matthew Laufer.',
-        });
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, path.join(__dirname, '/uploads/'));
+        },
+        filename: function (req, file, cb) {
+            cb(null, Date.now() + '.jpeg');
+        },
     });
-    app.use('/', authRouter);
-    app.use('/users', userRouter);
-    app.use('/posts', postRouter);
+
+    const upload = multer({ storage: storage });
+
+    app.post('/upload', upload.single('file'), async (req: any, res) => {
+        try {
+            console.log('uploading...');
+            console.log(req.file.filename);
+            res.json({ file: req.file });
+        } catch (error) {
+            console.log(error);
+        }
+    });
 
     app.use(notFoundHandler);
     app.use(errorHandler);

@@ -17,11 +17,11 @@ export function errorHandler(
     }
 
     if (process.env.NODE_ENV !== 'production') {
-        res.status(err.status).json({
+        res.status(err.status || 500).json({
             message: err.message,
             stack: err.stack,
         });
     } else {
-        res.status(err.status).json({ message: err.message });
+        res.status(err.status || 500).json({ message: err.message });
     }
 }
