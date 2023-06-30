@@ -1,15 +1,6 @@
 module.exports = {
     preset: 'ts-jest',
     moduleDirectories: ['node_modules', 'src'],
-    moduleNameMapper: {
-        '^@db(.*)$': '<rootDir>/src/db$1',
-        '^@errors(.*)$': '<rootDir>/src/errors$1',
-        '^@middleware(.*)$': '<rootDir>/src/middleware$1',
-        '^@features(.*)$': '<rootDir>/src/features$1',
-        '^@test(.*)$': '<rootDir>/src/test$1',
-        '^@server': '<rootDir>/src/server',
-        '^@types': '<rootDir>/src/types',
-    },
     verbose: true,
     setupFilesAfterEnv: ['./src/test/setup-env.ts'],
     testPathIgnorePatterns: ['node_modules', 'dist', '__tests__'],

@@ -1,5 +1,5 @@
 import { IDatabase } from 'pg-promise';
-import { ProductEntity } from '@types';
+import { ProductEntity } from '../../types';
 
 export default class PostRepository {
     constructor(private db: IDatabase<any>) {}

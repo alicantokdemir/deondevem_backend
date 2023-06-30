@@ -7,8 +7,8 @@ import { json } from 'body-parser';
 import helmet from 'helmet';
 import { merge } from 'lodash';
 import morgan from 'morgan';
-import productRouter from '@features/product/product-router';
-import { errorHandler, notFoundHandler } from '@middleware/errorHandlers';
+import productRouter from './features/product/product-router';
+import { errorHandler, notFoundHandler } from './middleware/errorHandlers';
 import path from 'path';
 
 export type Server = Omit<HttpServer, 'close'> & { close: () => Promise<void> };

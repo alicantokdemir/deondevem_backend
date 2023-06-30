@@ -1,9 +1,9 @@
 import { toString } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import db from '@db';
-import { makeProduct } from '@features/product/product-helpers';
-import { HttpError, InternalServerError, NotFoundError } from '@errors';
-import { Product } from '@types';
+import db from '../../db';
+import { makeProduct } from '../../features/product/product-helpers';
+import { HttpError, InternalServerError, NotFoundError } from '../../errors';
+import { Product } from '../../types';
 
 function handleError(err: unknown): never {
     if (err instanceof HttpError) {

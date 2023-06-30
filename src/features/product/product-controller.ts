@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { pick } from 'lodash';
-import * as productService from '@features/product/product-service';
-import * as etapaService from '@features/etapa/etapa-service';
-import asyncWrapper from '@middleware/asyncWrapper';
+import * as productService from '../../features/product/product-service';
+import * as etapaService from '../../features/etapa/etapa-service';
+import asyncWrapper from '../../middleware/asyncWrapper';
 
 export const fetchProduct = asyncWrapper(async (req: Request, res: Response): Promise<void> => {
     const product = await productService.fetchProduct(req.params.id);

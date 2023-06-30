@@ -1,8 +1,8 @@
 import { toString } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import db from '@db';
-import { HttpError, InternalServerError, NotFoundError } from '@errors';
-import { EtapaEntity } from '@types';
+import db from '../../db';
+import { HttpError, InternalServerError, NotFoundError } from '../../errors';
+import { EtapaEntity } from '../../types';
 
 function handleError(err: unknown): never {
     if (err instanceof HttpError) {

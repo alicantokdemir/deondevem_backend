@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 import { toString } from 'lodash';
-import { BadRequestError } from '@errors';
-import asyncWrapper from '@middleware/asyncWrapper';
-import { MiddlewareFunc } from '@types';
+import { BadRequestError } from '../errors';
+import asyncWrapper from '../middleware/asyncWrapper';
+import { MiddlewareFunc } from '../types';
 
 const uuidValidator = Joi.string().guid({ version: 'uuidv4' });
 const usernameValidator = Joi.string().min(3).max(30);

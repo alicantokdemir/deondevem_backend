@@ -1,5 +1,5 @@
 import { IDatabase } from 'pg-promise';
-import { EtapaEntity } from '@types';
+import { EtapaEntity } from '../../types';
 
 export default class EtapaRepository {
     constructor(private db: IDatabase<any>) {}

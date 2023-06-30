@@ -1,5 +1,5 @@
 import { pick } from 'lodash';
-import { EtapaEntity, Product, ProductEntity } from '@types';
+import { EtapaEntity, Product, ProductEntity } from '../../types';
 
 export function makeProduct(data: ProductEntity, etapas: EtapaEntity[]): Product {
     return {
