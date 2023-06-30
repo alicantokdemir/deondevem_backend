@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: cimg/node:16.13.1
+        environment:
+          SESSION_SECRET: secret
+          POSTGRES_USER: postgres
+          POSTGRES_DB: circle_test
+      - image: cimg/postgres:14.2
+      - image: cimg/redis:6.2.6
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependency-cache-{{ checksum "package.json" }}
+
+      - run: yarn install
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client
+
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+      - run: yarn ci:check

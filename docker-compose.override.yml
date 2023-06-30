@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    ports:
+      - '5000:5000'
+    command: ['yarn', 'run', 'dev']
+
+  pg:
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
